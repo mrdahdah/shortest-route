@@ -1,16 +1,19 @@
 # Logistics Routing Engine 🚚
 
-A powerful, interactive web application demonstrating graph algorithms for delivery route optimization. Build custom networks, visualize algorithms, and solve the Traveling Salesman Problem - just like Glovo and Deliveroo!
+A comprehensive, production-ready web application for delivery route optimization. Features advanced algorithms, real-time cost calculation, traffic simulation, and multi-vehicle routing - built for Glovo-scale logistics!
 
-**⭐ New Features:** Interactive Graph Builder, TSP Solver, Fullscreen Maps, and Full Node/Edge Customization!
+**🚀 Latest:** Dark Mode, A* Search, 2-Opt TSP Optimization, Priority Orders, Driver Capacity Constraints, Traffic Simulation, and Cost Analysis!
 
 ## Features
 
 ### Core Algorithms
-- **Dijkstra's Algorithm**: Interactive step-by-step visualization of shortest path finding with animated path tracing
-- **TSP Solver (Traveling Salesman Problem)**: Visit all nodes exactly once with minimum total distance using Nearest Neighbor heuristic
-- **Hamiltonian Path Detection**: Algorithm to check if all nodes can be visited exactly once
-- **Dynamic Route Planning**: Select any start and end points to calculate optimal routes
+- **Dijkstra's Algorithm**: Classic shortest path with step-by-step visualization
+- **A* Search**: Heuristic-based pathfinding with Euclidean distance estimation
+- **Algorithm Comparison**: Side-by-side Dijkstra vs A* with performance metrics
+- **TSP Solver**: Nearest Neighbor heuristic for visiting all nodes once
+- **2-Opt Optimization**: Improve TSP solutions by eliminating route crossings
+- **Hamiltonian Path Detection**: Check if all nodes can be visited exactly once
+- **Multi-Vehicle Routing**: Split routes by driver capacity constraints
 
 ### Visualizations
 - **Abstract Graph View**: SVG-based graph visualization with color-coded nodes and weighted edges
@@ -31,7 +34,15 @@ A powerful, interactive web application demonstrating graph algorithms for deliv
 - **Multi-format Export**: Export graph data as JSON, route analysis as TXT, or adjacency matrix as CSV
 - **Real-time Metrics**: Track algorithm progress with visited/unvisited node counts
 
+### Business Features
+- **Cost Calculation**: Automatic fuel and driver cost computation per route
+- **Traffic Simulation**: Apply traffic conditions (light/moderate/heavy/random)
+- **Priority Orders**: Urgent, standard, and low priority delivery support
+- **Driver Capacity**: Automatic route splitting based on vehicle capacity
+- **Return to Hub**: Complete delivery circuits with return leg
+
 ### User Experience
+- **Dark Mode**: Professional night-friendly interface with theme toggle
 - **Responsive Design**: Optimized for mobile, tablet, and desktop with Tailwind CSS
 - **Interactive Controls**: Play, pause, step-forward, and reset controls for algorithm visualization
 - **Modern UI**: Powered by shadcn/ui components with clean, accessible design
@@ -86,16 +97,32 @@ Determines if a driver can visit all nodes exactly once:
 - Educational explanations of graph theory concepts
 - Useful for route optimization and delivery scheduling
 
-### 3. TSP Solver
-Traveling Salesman Problem solution using Nearest Neighbor heuristic:
+### 3. A* Search
+Advanced pathfinding with heuristics:
+- Euclidean distance heuristic guides search
+- Faster than Dijkstra in many cases
+- Open/closed set visualization
+- gScore and fScore tracking
+- Direct comparison with Dijkstra
+- Traffic-aware routing
+
+### 4. TSP Solver (Basic)
+Traveling Salesman Problem using Nearest Neighbor:
 - Visit all nodes exactly once
-- Minimize total travel distance
+- Greedy nearest-neighbor approach
 - Step-by-step visualization
 - Selectable starting point
-- Real-time path construction
-- Algorithm explanation and notes
 
-### 4. Graph Statistics
+### 5. TSP Pro (Enhanced)
+Advanced TSP with optimization:
+- 2-Opt route optimization (eliminates crossings)
+- Return to hub option
+- Driver capacity constraints
+- Multi-vehicle routing
+- Cost breakdown (fuel + driver)
+- Improvement percentages
+
+### 6. Graph Statistics
 Comprehensive analysis of the delivery network:
 - Node and edge counts by type
 - Graph density calculation
@@ -136,45 +163,58 @@ Comprehensive analysis of the delivery network:
     └── graph.ts                                # Graph algorithms & TSP solver
 ```
 
-## Application Sections
+## Application Sections (9 Tabs)
 
 ### 1. Overview
 - Side-by-side graph and map visualizations with fullscreen support
 - Scenario description and graph properties
 - Real-world application context (Glovo/Deliveroo)
 
-### 2. Graph Builder ⭐ NEW
+### 2. Graph Builder
 - Interactive graph editor for custom networks
 - Add/edit/delete nodes with customizable names and types
 - Create and modify weighted edges
 - Live preview with dual graph/map views
 - Import/export custom graphs
 
-### 3. Route Finder
+### 3. Dijkstra
 - Dynamic start/end point selection
 - Enhanced Dijkstra visualization with animation
 - Toggle between graph and map views
 - Real-time distance table updates
 
-### 4. TSP (Traveling Salesman) ⭐ NEW
+### 4. A* vs Dijkstra 🔥 NEW
+- Side-by-side algorithm comparison
+- Traffic condition simulation
+- Cost breakdown (fuel + driver)
+- Performance metrics (time, steps, cost)
+- Winner highlighting
+
+### 5. TSP Basic
 - Visit all nodes exactly once
 - Nearest neighbor heuristic algorithm
 - Animated step-by-step solution
 - Selectable starting node
-- Total distance optimization
 
-### 5. Path Analysis
+### 6. TSP Pro 🔥 NEW
+- 2-Opt optimization for better routes
+- Return to hub toggle
+- Driver capacity constraints
+- Multi-vehicle route splitting
+- Cost analysis and improvement metrics
+
+### 7. Path Analysis
 - Hamiltonian path detection
 - Graph connectivity analysis
 - Educational content on graph theory
 
-### 6. Statistics
+### 8. Statistics
 - Comprehensive network metrics
 - Edge analysis (longest/shortest routes)
 - Graph density and connectivity stats
 - Visual metric cards
 
-### 7. Export
+### 9. Export
 - JSON export (complete graph structure)
 - TXT export (route analysis with all shortest paths)
 - CSV export (adjacency matrix)

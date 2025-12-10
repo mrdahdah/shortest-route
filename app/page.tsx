@@ -9,32 +9,38 @@ import { FullscreenMap } from "@/components/fullscreen-map";
 import { StatisticsDashboard } from "@/components/statistics-dashboard";
 import { ExportData } from "@/components/export-data";
 import { TSPVisualization } from "@/components/tsp-visualization";
+import { TSPEnhanced } from "@/components/tsp-enhanced";
+import { AdvancedRouting } from "@/components/advanced-routing";
 import { GraphBuilder } from "@/components/graph-builder";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Package, MapPin, TruckIcon, BarChart3, Download, Route, Pencil } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Package, MapPin, TruckIcon, BarChart3, Download, Route, Pencil, Zap, TrendingUp } from "lucide-react";
 
 export default function Home() {
   const [graph, setGraph] = useState<Graph>(sampleGraph);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <TruckIcon className="h-10 w-10 text-primary" />
-            <h1 className="text-4xl font-bold text-gray-900">Logistics Routing Engine</h1>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              <TruckIcon className="h-10 w-10 text-primary" />
+              <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">Logistics Routing Engine</h1>
+            </div>
+            <ThemeToggle />
           </div>
           <p className="text-lg text-muted-foreground">
-            Graph-based delivery route optimization using Dijkstra's algorithm
+            Graph-based delivery route optimization using advanced algorithms
           </p>
         </div>
 
         <Separator className="mb-8" />
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-7 h-auto">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 lg:grid-cols-9 h-auto">
             <TabsTrigger value="overview" className="text-xs md:text-sm">
               <MapPin className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
               Overview
@@ -45,11 +51,19 @@ export default function Home() {
             </TabsTrigger>
             <TabsTrigger value="dijkstra" className="text-xs md:text-sm">
               <Package className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
-              Route Finder
+              Dijkstra
+            </TabsTrigger>
+            <TabsTrigger value="advanced" className="text-xs md:text-sm">
+              <Zap className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
+              A* vs Dijkstra
             </TabsTrigger>
             <TabsTrigger value="tsp" className="text-xs md:text-sm">
               <Route className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
-              TSP
+              TSP Basic
+            </TabsTrigger>
+            <TabsTrigger value="tsp-advanced" className="text-xs md:text-sm">
+              <TrendingUp className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
+              TSP Pro
             </TabsTrigger>
             <TabsTrigger value="hamiltonian" className="text-xs md:text-sm">
               <TruckIcon className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
@@ -171,8 +185,16 @@ export default function Home() {
             <DijkstraVisualizationEnhanced graph={graph} initialStart="A" initialEnd="E" />
           </TabsContent>
 
+          <TabsContent value="advanced" className="space-y-6">
+            <AdvancedRouting graph={graph} />
+          </TabsContent>
+
           <TabsContent value="tsp" className="space-y-6">
             <TSPVisualization graph={graph} initialStart="A" />
+          </TabsContent>
+
+          <TabsContent value="tsp-advanced" className="space-y-6">
+            <TSPEnhanced graph={graph} />
           </TabsContent>
 
           <TabsContent value="statistics" className="space-y-6">
