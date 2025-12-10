@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { sampleGraph } from "@/lib/graph";
-import { DijkstraVisualization } from "@/components/dijkstra-visualization";
+import { DijkstraVisualizationEnhanced } from "@/components/dijkstra-visualization-enhanced";
 import { HamiltonianCheck } from "@/components/hamiltonian-check";
 import { GraphVisualization } from "@/components/graph-visualization";
+import { RouteMap } from "@/components/route-map";
+import { StatisticsDashboard } from "@/components/statistics-dashboard";
+import { ExportData } from "@/components/export-data";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Package, MapPin, TruckIcon } from "lucide-react";
+import { Package, MapPin, TruckIcon, BarChart3, Download } from "lucide-react";
 
 export default function Home() {
   const [graph] = useState(sampleGraph);
@@ -29,7 +32,7 @@ export default function Home() {
         <Separator className="mb-8" />
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 lg:w-[600px]">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             <TabsTrigger value="overview">
               <MapPin className="mr-2 h-4 w-4" />
               Overview
@@ -42,21 +45,43 @@ export default function Home() {
               <TruckIcon className="mr-2 h-4 w-4" />
               Path Analysis
             </TabsTrigger>
+            <TabsTrigger value="statistics">
+              <BarChart3 className="mr-2 h-4 w-4" />
+              Statistics
+            </TabsTrigger>
+            <TabsTrigger value="export">
+              <Download className="mr-2 h-4 w-4" />
+              Export
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Delivery Network</CardTitle>
-                  <CardDescription>
-                    Interactive graph showing all delivery points and connections
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <GraphVisualization graph={graph} />
-                </CardContent>
-              </Card>
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Delivery Network Graph</CardTitle>
+                    <CardDescription>
+                      Abstract graph showing all delivery points and connections
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <GraphVisualization graph={graph} />
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>OpenStreetMap View</CardTitle>
+                    <CardDescription>
+                      Geographic locations on real map
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <RouteMap graph={graph} />
+                  </CardContent>
+                </Card>
+              </div>
 
               <div className="space-y-6">
                 <Card>
@@ -129,7 +154,37 @@ export default function Home() {
           </TabsContent>
 
           <TabsContent value="dijkstra" className="space-y-6">
-            <DijkstraVisualization graph={graph} start="A" end="E" />
+            <DijkstraVisualizationEnhanced graph={graph} initialStart="A" initialEnd="E" />
+          </TabsContent>
+
+          <TabsContent value="statistics" className="space-y-6">
+            <StatisticsDashboard graph={graph} />
+          </TabsContent>
+
+          <TabsContent value="export" className="space-y-6">
+            <div className="grid gap-6 md:grid-cols-2">
+              <ExportData graph={graph} />
+              <Card>
+                <CardHeader>
+                  <CardTitle>About Exports</CardTitle>
+                  <CardDescription>Data format information</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">JSON Format:</strong> Complete graph structure
+                    including all nodes, edges, and coordinates. Perfect for importing into other applications.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Route Analysis:</strong> Human-readable text file
+                    with all shortest paths calculated between every pair of nodes.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Adjacency Matrix:</strong> CSV format matrix
+                    showing edge weights. Can be imported into Excel or other data analysis tools.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="hamiltonian" className="space-y-6">

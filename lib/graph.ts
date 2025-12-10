@@ -4,6 +4,8 @@ export interface Node {
   type: 'restaurant' | 'customer' | 'driver-hub';
   x: number;
   y: number;
+  lat: number;
+  lng: number;
 }
 
 export interface Edge {
@@ -19,12 +21,12 @@ export interface Graph {
 
 export const sampleGraph: Graph = {
   nodes: [
-    { id: 'A', label: 'Restaurant A', type: 'restaurant', x: 200, y: 150 },
-    { id: 'B', label: 'Customer B', type: 'customer', x: 100, y: 250 },
-    { id: 'C', label: 'Customer C', type: 'customer', x: 300, y: 100 },
-    { id: 'D', label: 'Customer D', type: 'customer', x: 400, y: 250 },
-    { id: 'E', label: 'Customer E', type: 'customer', x: 500, y: 150 },
-    { id: 'F', label: 'Driver Hub F', type: 'driver-hub', x: 300, y: 300 },
+    { id: 'A', label: 'Restaurant A', type: 'restaurant', x: 200, y: 150, lat: 40.7589, lng: -73.9851 },
+    { id: 'B', label: 'Customer B', type: 'customer', x: 100, y: 250, lat: 40.7489, lng: -73.9951 },
+    { id: 'C', label: 'Customer C', type: 'customer', x: 300, y: 100, lat: 40.7689, lng: -73.9751 },
+    { id: 'D', label: 'Customer D', type: 'customer', x: 400, y: 250, lat: 40.7489, lng: -73.9651 },
+    { id: 'E', label: 'Customer E', type: 'customer', x: 500, y: 150, lat: 40.7589, lng: -73.9551 },
+    { id: 'F', label: 'Driver Hub F', type: 'driver-hub', x: 300, y: 300, lat: 40.7389, lng: -73.9751 },
   ],
   edges: [
     { from: 'A', to: 'B', weight: 5 },
