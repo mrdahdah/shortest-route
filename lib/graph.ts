@@ -148,3 +148,100 @@ export function hasHamiltonianPath(graph: Graph): boolean {
 
   return false;
 }
+
+// TSP (Traveling Salesman Problem) - Visit all nodes once with shortest path
+export interface TSPResult {
+  path: string[];
+  totalDistance: number;
+  steps: TSPStep[];
+}
+
+export interface TSPStep {
+  currentPath: string[];
+  totalDistance: number;
+  nextNode: string | null;
+  remainingNodes: string[];
+}
+
+export function solveTSP(graph: Graph, startNode: string): TSPResult {
+  const steps: TSPStep[] = [];
+  const visited = new Set<string>([startNode]);
+  const path = [startNode];
+  let totalDistance = 0;
+
+  steps.push({
+    currentPath: [...path],
+    totalDistance,
+    nextNode: null,
+    remainingNodes: graph.nodes.filter(n => n.id !== startNode).map(n => n.id),
+  });
+
+  while (visited.size < graph.nodes.length) {
+    const current = path[path.length - 1];
+    let nearestNode: string | null = null;
+    let nearestDistance = Infinity;
+
+    for (const node of graph.nodes) {
+      if (!visited.has(node.id)) {
+        const distance = getDistance(graph, current, node.id);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestNode = node.id;
+        }
+      }
+    }
+
+    if (nearestNode === null) break;
+
+    path.push(nearestNode);
+    visited.add(nearestNode);
+    totalDistance += nearestDistance;
+
+    steps.push({
+      currentPath: [...path],
+      totalDistance,
+      nextNode: nearestNode,
+      remainingNodes: graph.nodes.filter(n => !visited.has(n.id)).map(n => n.id),
+    });
+  }
+
+  // Optionally return to start
+  // const returnDistance = getDistance(graph, path[path.length - 1], startNode);
+  // totalDistance += returnDistance;
+  // path.push(startNode);
+
+  return { path, totalDistance, steps };
+}
+
+// Helper function to get distance between two nodes
+function getDistance(graph: Graph, from: string, to: string): number {
+  const edge = graph.edges.find(
+    e => (e.from === from && e.to === to) || (e.from === to && e.to === from)
+  );
+
+  if (edge) return edge.weight;
+
+  // If no direct edge, use Dijkstra to find shortest path
+  const result = dijkstra(graph, from, to);
+  return result.distance === Infinity ? Infinity : result.distance;
+}
+
+// Generate next available node ID
+export function getNextNodeId(graph: Graph): string {
+  const existingIds = graph.nodes.map(n => n.id);
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+  for (const letter of letters) {
+    if (!existingIds.includes(letter)) return letter;
+  }
+
+  // If all letters used, start with AA, AB, etc.
+  for (let i = 0; i < letters.length; i++) {
+    for (let j = 0; j < letters.length; j++) {
+      const id = letters[i] + letters[j];
+      if (!existingIds.includes(id)) return id;
+    }
+  }
+
+  return 'N' + (graph.nodes.length + 1);
+}

@@ -1,20 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { sampleGraph } from "@/lib/graph";
+import { sampleGraph, Graph } from "@/lib/graph";
 import { DijkstraVisualizationEnhanced } from "@/components/dijkstra-visualization-enhanced";
 import { HamiltonianCheck } from "@/components/hamiltonian-check";
 import { GraphVisualization } from "@/components/graph-visualization";
-import { RouteMap } from "@/components/route-map";
+import { FullscreenMap } from "@/components/fullscreen-map";
 import { StatisticsDashboard } from "@/components/statistics-dashboard";
 import { ExportData } from "@/components/export-data";
+import { TSPVisualization } from "@/components/tsp-visualization";
+import { GraphBuilder } from "@/components/graph-builder";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Package, MapPin, TruckIcon, BarChart3, Download } from "lucide-react";
+import { Package, MapPin, TruckIcon, BarChart3, Download, Route, Pencil } from "lucide-react";
 
 export default function Home() {
-  const [graph] = useState(sampleGraph);
+  const [graph, setGraph] = useState<Graph>(sampleGraph);
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -32,25 +34,33 @@ export default function Home() {
         <Separator className="mb-8" />
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-            <TabsTrigger value="overview">
-              <MapPin className="mr-2 h-4 w-4" />
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-7 h-auto">
+            <TabsTrigger value="overview" className="text-xs md:text-sm">
+              <MapPin className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
               Overview
             </TabsTrigger>
-            <TabsTrigger value="dijkstra">
-              <Package className="mr-2 h-4 w-4" />
+            <TabsTrigger value="builder" className="text-xs md:text-sm">
+              <Pencil className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
+              Builder
+            </TabsTrigger>
+            <TabsTrigger value="dijkstra" className="text-xs md:text-sm">
+              <Package className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
               Route Finder
             </TabsTrigger>
-            <TabsTrigger value="hamiltonian">
-              <TruckIcon className="mr-2 h-4 w-4" />
-              Path Analysis
+            <TabsTrigger value="tsp" className="text-xs md:text-sm">
+              <Route className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
+              TSP
             </TabsTrigger>
-            <TabsTrigger value="statistics">
-              <BarChart3 className="mr-2 h-4 w-4" />
-              Statistics
+            <TabsTrigger value="hamiltonian" className="text-xs md:text-sm">
+              <TruckIcon className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
+              Analysis
             </TabsTrigger>
-            <TabsTrigger value="export">
-              <Download className="mr-2 h-4 w-4" />
+            <TabsTrigger value="statistics" className="text-xs md:text-sm">
+              <BarChart3 className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
+              Stats
+            </TabsTrigger>
+            <TabsTrigger value="export" className="text-xs md:text-sm">
+              <Download className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
               Export
             </TabsTrigger>
           </TabsList>
@@ -78,7 +88,7 @@ export default function Home() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <RouteMap graph={graph} />
+                    <FullscreenMap graph={graph} />
                   </CardContent>
                 </Card>
               </div>
@@ -153,8 +163,16 @@ export default function Home() {
             </div>
           </TabsContent>
 
+          <TabsContent value="builder" className="space-y-6">
+            <GraphBuilder initialGraph={graph} onGraphChange={setGraph} />
+          </TabsContent>
+
           <TabsContent value="dijkstra" className="space-y-6">
             <DijkstraVisualizationEnhanced graph={graph} initialStart="A" initialEnd="E" />
+          </TabsContent>
+
+          <TabsContent value="tsp" className="space-y-6">
+            <TSPVisualization graph={graph} initialStart="A" />
           </TabsContent>
 
           <TabsContent value="statistics" className="space-y-6">
